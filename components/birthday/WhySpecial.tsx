@@ -1,535 +1,227 @@
 "use client";
 
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import {
-  Heart,
-  Sparkles,
-  Star,
-} from "lucide-react";
+import { Heart, Sparkles, Star, Gem, Crown, Compass } from "lucide-react";
+import { sounds } from "@/lib/soundEffects";
 
 const SPECIAL_POINTS = [
   {
     number: "01",
-    title: "Your smile",
-    text: "There is something about your smile that can make an ordinary moment feel a little different.",
+    subtitle: "Radiance & Joy",
+    title: "Your beautiful smile",
+    text: "There is an effortless magic in your smile that can turn any ordinary, quiet moment into something profoundly warm and unforgettable.",
+    icon: Sparkles,
   },
   {
     number: "02",
-    title: "The way you talk",
-    text: "Even simple conversations with you somehow become memories that stay a little longer.",
+    subtitle: "Conversations & Voice",
+    title: "The way you speak",
+    text: "Even simple, everyday conversations with you somehow become cherished memories that linger softly in my mind long after we part.",
+    icon: Star,
   },
   {
     number: "03",
-    title: "The little things",
-    text: "Sometimes it is not the big things. It is the tiny little moments that quietly become special.",
+    subtitle: "Quiet Details",
+    title: "The little things you do",
+    text: "It is never just the grand gestures. It is the tiny, thoughtful details and gentle habits of yours that make my heart feel so safe.",
+    icon: Gem,
   },
   {
     number: "04",
+    subtitle: "Serenity & Peace",
     title: "The way you make me feel",
-    text: "Some people simply make life feel a little happier. Somehow, you are one of those people.",
+    text: "Some people simply make the entire world feel lighter, brighter, and full of genuine purpose. You are that person for me, Anbu Arasi.",
+    icon: Heart,
+  },
+  {
+    number: "05",
+    subtitle: "Pure Royal Grace",
+    title: "Your kind and gentle heart",
+    text: "The kindness and genuine warmth you carry inside are rarer than the most precious jewels in the universe.",
+    icon: Crown,
+  },
+  {
+    number: "06",
+    subtitle: "Eternal & Irreplaceable",
+    title: "My forever favourite soul",
+    text: "Among eight billion people across the cosmos, you will always be the only one who holds this sacred place in my life. ❤️",
+    icon: Compass,
   },
 ];
 
 export function WhySpecial() {
   return (
-    <section
-      className="
-        relative
-        overflow-hidden
-        px-5
-        py-32
-        sm:px-8
-        sm:py-40
-      "
-    >
-      {/* =================================================
-          BACKGROUND GLOW
-      ================================================= */}
-
+    <section className="relative overflow-hidden px-5 py-32 sm:px-8 sm:py-40">
+      {/* Background Soft Glow */}
       <motion.div
-        animate={{
-          scale: [1, 1.15, 1],
-          opacity: [0.12, 0.24, 0.12],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
-          pointer-events-none
-          absolute
-          left-1/2
-          top-1/2
-          h-[550px]
-          w-[550px]
-          -translate-x-1/2
-          -translate-y-1/2
-          rounded-full
-          bg-rose-500/[0.08]
-          blur-[150px]
-        "
+        animate={{ scale: [1, 1.15, 1], opacity: [0.12, 0.3, 0.12] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[650px] w-[650px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-amber-500/15 via-rose-500/15 to-purple-600/15 blur-[180px]"
       />
 
-      {/* =================================================
-          HEADER
-      ================================================= */}
-
-      <div
-        className="
-          relative
-          z-10
-          mx-auto
-          max-w-3xl
-          text-center
-        "
-      >
+      {/* HEADER */}
+      <div className="relative z-10 mx-auto max-w-3xl text-center">
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 15,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.3,
-          }}
-          className="
-            flex
-            items-center
-            justify-center
-            gap-2
-            text-[9px]
-            uppercase
-            tracking-[0.45em]
-            text-rose-200/40
-          "
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="inline-flex items-center justify-center gap-2.5 rounded-full border border-amber-300/40 bg-gradient-to-r from-amber-950/50 via-black/80 to-amber-950/50 px-5 py-2 text-[9px] sm:text-[10px] uppercase tracking-[0.4em] text-amber-200 backdrop-blur-2xl shadow-xl"
         >
-          <Sparkles size={12} />
-
-          A few things
-
-          <Sparkles size={12} />
+          <Crown size={12} className="text-amber-300" />
+          <span>Royal Constellations • Pure & Irreplaceable</span>
+          <Crown size={12} className="text-amber-300" />
         </motion.div>
 
         <motion.h2
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.3,
-          }}
-          transition={{
-            delay: 0.15,
-          }}
-          className="
-            mt-5
-            text-4xl
-            font-extralight
-            tracking-[-0.04em]
-            sm:text-6xl
-          "
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.15 }}
+          className="mt-6 font-serif text-4xl font-light tracking-tight sm:text-6xl"
         >
-          Why you&apos;re
-          <span className="text-white/30">
-            {" "}
-            special.
-          </span>
+          Why you are so <span className="font-display italic text-gold-shimmer">truly special. ✨</span>
         </motion.h2>
 
         <motion.p
-          initial={{
-            opacity: 0,
-          }}
-          whileInView={{
-            opacity: 1,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            delay: 0.35,
-          }}
-          className="
-            mx-auto
-            mt-6
-            max-w-lg
-            text-sm
-            leading-7
-            text-white/30
-          "
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="mx-auto mt-4 max-w-lg text-xs sm:text-sm font-light leading-relaxed text-white/50 px-2"
         >
-          I could probably write a hundred
-          reasons. But these little things
-          are enough to start.
+          You do not have to try to be extraordinary. Just being who you are is a gift to the entire world.
         </motion.p>
       </div>
 
-      {/* =================================================
-          CARDS
-      ================================================= */}
-
-      <div
-        className="
-          relative
-          z-10
-          mx-auto
-          mt-20
-          grid
-          max-w-5xl
-          gap-5
-          sm:mt-24
-          md:grid-cols-2
-        "
-      >
-        {SPECIAL_POINTS.map(
-          (item, index) => (
-            <motion.div
-              key={item.number}
-              initial={{
-                opacity: 0,
-                y: 35,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-                amount: 0.2,
-              }}
-              transition={{
-                duration: 0.7,
-                delay: index * 0.12,
-              }}
-              whileHover={{
-                y: -5,
-              }}
-              className="
-                group
-                relative
-                overflow-hidden
-                rounded-[28px]
-                border
-                border-white/10
-                bg-white/[0.035]
-                p-7
-                backdrop-blur-xl
-                transition
-                duration-500
-                hover:border-rose-200/10
-                hover:bg-white/[0.05]
-                sm:p-9
-              "
-            >
-              {/* CARD GLOW */}
-
-              <div
-                className="
-                  pointer-events-none
-                  absolute
-                  -right-20
-                  -top-20
-                  h-40
-                  w-40
-                  rounded-full
-                  bg-rose-400/[0.04]
-                  blur-3xl
-                  transition
-                  duration-700
-                  group-hover:bg-rose-400/[0.08]
-                "
-              />
-
-              {/* NUMBER */}
-
-              <div
-                className="
-                  relative
-                  flex
-                  items-center
-                  justify-between
-                "
-              >
-                <span
-                  className="
-                    text-[10px]
-                    uppercase
-                    tracking-[0.35em]
-                    text-rose-200/35
-                  "
-                >
-                  {item.number}
-                </span>
-
-                <Star
-                  size={15}
-                  strokeWidth={1}
-                  className="
-                    text-white/15
-                    transition
-                    duration-500
-                    group-hover:rotate-45
-                    group-hover:text-rose-200/40
-                  "
-                />
-              </div>
-
-              {/* TITLE */}
-
-              <h3
-                className="
-                  relative
-                  mt-10
-                  text-2xl
-                  font-extralight
-                  tracking-tight
-                  text-white/80
-                  sm:text-3xl
-                "
-              >
-                {item.title}
-              </h3>
-
-              {/* DIVIDER */}
-
-              <div
-                className="
-                  relative
-                  mt-5
-                  h-px
-                  w-12
-                  bg-gradient-to-r
-                  from-rose-200/30
-                  to-transparent
-                  transition-all
-                  duration-500
-                  group-hover:w-20
-                "
-              />
-
-              {/* TEXT */}
-
-              <p
-                className="
-                  relative
-                  mt-5
-                  text-sm
-                  font-extralight
-                  leading-7
-                  text-white/35
-                "
-              >
-                {item.text}
-              </p>
-            </motion.div>
-          )
-        )}
+      {/* 6 ROYAL EDITORIAL CARDS */}
+      <div className="relative z-10 mx-auto mt-20 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+        {SPECIAL_POINTS.map((point, index) => (
+          <EditorialSpecialCard key={point.number} point={point} index={index} />
+        ))}
       </div>
 
-      {/* =================================================
-          FINAL CARD
-      ================================================= */}
-
+      {/* FOOTER QUOTE */}
       <motion.div
-        initial={{
-          opacity: 0,
-          y: 40,
-          scale: 0.97,
-        }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-          scale: 1,
-        }}
-        viewport={{
-          once: true,
-          amount: 0.25,
-        }}
-        transition={{
-          duration: 1,
-          delay: 0.2,
-        }}
-        className="
-          relative
-          z-10
-          mx-auto
-          mt-6
-          max-w-5xl
-          overflow-hidden
-          rounded-[32px]
-          border
-          border-rose-200/10
-          bg-gradient-to-br
-          from-rose-200/[0.07]
-          via-white/[0.025]
-          to-transparent
-          p-8
-          text-center
-          shadow-2xl
-          shadow-rose-500/[0.04]
-          sm:p-14
-        "
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.4 }}
+        className="relative z-10 mx-auto mt-24 flex max-w-md items-center justify-center gap-3 text-center text-[10px] uppercase tracking-[0.4em] text-amber-200/50 font-light"
       >
-        {/* DECORATION */}
-
-        <div
-          className="
-            pointer-events-none
-            absolute
-            left-1/2
-            top-1/2
-            h-48
-            w-48
-            -translate-x-1/2
-            -translate-y-1/2
-            rounded-full
-            bg-rose-400/[0.06]
-            blur-[80px]
-          "
-        />
-
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 2.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="
-            relative
-            mx-auto
-            flex
-            h-16
-            w-16
-            items-center
-            justify-center
-            rounded-full
-            border
-            border-rose-200/10
-            bg-rose-200/[0.05]
-            text-rose-200/70
-          "
-        >
-          <Heart
-            size={24}
-            fill="currentColor"
-          />
-        </motion.div>
-
-        <div
-          className="
-            relative
-            mt-8
-            text-[9px]
-            uppercase
-            tracking-[0.4em]
-            text-rose-200/35
-          "
-        >
-          And then there is this
-        </div>
-
-        <h3
-          className="
-            relative
-            mt-5
-            text-3xl
-            font-extralight
-            tracking-[-0.03em]
-            sm:text-5xl
-          "
-        >
-          Simply...
-          <span
-            className="
-              block
-              bg-gradient-to-r
-              from-white
-              via-rose-100
-              to-white/30
-              bg-clip-text
-              text-transparent
-            "
-          >
-            You. ❤️
-          </span>
-        </h3>
-
-        <p
-          className="
-            relative
-            mx-auto
-            mt-6
-            max-w-xl
-            text-sm
-            font-extralight
-            leading-7
-            text-white/35
-          "
-        >
-          I don&apos;t really need a reason
-          to explain why you are special.
-          Somehow, you just are.
-        </p>
-      </motion.div>
-
-      {/* =================================================
-          BOTTOM HEART
-      ================================================= */}
-
-      <motion.div
-        initial={{
-          opacity: 0,
-        }}
-        whileInView={{
-          opacity: 1,
-        }}
-        viewport={{
-          once: true,
-        }}
-        transition={{
-          delay: 0.5,
-        }}
-        className="
-          relative
-          z-10
-          mx-auto
-          mt-20
-          flex
-          items-center
-          justify-center
-          gap-3
-          text-[8px]
-          uppercase
-          tracking-[0.4em]
-          text-white/20
-        "
-      >
-        <Heart
-          size={11}
-          fill="currentColor"
-        />
-
-        Some things are better felt
-        than explained.
-
-        <Heart
-          size={11}
-          fill="currentColor"
-        />
+        <Heart size={12} fill="currentColor" className="text-amber-300" />
+        <span>One In A Million • Anbu Arasi</span>
+        <Heart size={12} fill="currentColor" className="text-amber-300" />
       </motion.div>
     </section>
   );
 }
+
+function EditorialSpecialCard({
+  point,
+  index,
+}: {
+  point: (typeof SPECIAL_POINTS)[number];
+  index: number;
+}) {
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0, glareX: 50, glareY: 50 });
+  const [isHovered, setIsHovered] = useState(false);
+  const IconComponent = point.icon;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+
+    setTilt({
+      x: rotateX,
+      y: rotateY,
+      glareX: (x / rect.width) * 100,
+      glareY: (y / rect.height) * 100,
+    });
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7, delay: index * 0.1 }}
+    >
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => {
+          setIsHovered(true);
+          sounds.playChime(600 + index * 50, 0.25);
+        }}
+        onMouseLeave={() => {
+          setIsHovered(false);
+          setTilt({ x: 0, y: 0, glareX: 50, glareY: 50 });
+        }}
+        style={{
+          transformStyle: "preserve-3d",
+          transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(${isHovered ? 1.03 : 1}, ${isHovered ? 1.03 : 1}, 1)`,
+          transition: isHovered
+            ? "transform 0.1s cubic-bezier(0.2, 0, 0, 1)"
+            : "transform 0.6s cubic-bezier(0.2, 0, 0, 1)",
+        }}
+        className="
+          group relative overflow-hidden rounded-[28px] sm:rounded-[38px]
+          border border-amber-300/30 ring-1 ring-white/10
+          bg-gradient-to-b from-neutral-900/90 via-black/85 to-neutral-950/95
+          p-6 sm:p-9 shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_40px_rgba(251,191,36,0.15)]
+          backdrop-blur-3xl transition-all duration-500 hover:border-amber-300/70 hover:shadow-[0_25px_60px_rgba(251,191,36,0.3)]
+        "
+      >
+        {/* Corner Gold Notches */}
+        <div className="pointer-events-none absolute left-3 top-3 h-3 w-3 border-l border-t border-amber-300/60 rounded-tl-sm" />
+        <div className="pointer-events-none absolute right-3 top-3 h-3 w-3 border-r border-t border-amber-300/60 rounded-tr-sm" />
+
+        {/* Specular Prismatic glare */}
+        {isHovered && (
+          <div
+            className="pointer-events-none absolute inset-0 z-20 opacity-40 transition-opacity"
+            style={{
+              background: `radial-gradient(circle 200px at ${tilt.glareX}% ${tilt.glareY}%, rgba(251, 191, 36, 0.45), rgba(217, 70, 239, 0.2), transparent 70%)`,
+            }}
+          />
+        )}
+
+        {/* Oversized background Serif numeral */}
+        <div className="pointer-events-none absolute -right-2 -top-4 font-serif text-8xl font-thin tracking-tighter text-amber-300/[0.04] transition-colors group-hover:text-amber-400/[0.12] select-none">
+          {point.number}
+        </div>
+
+        {/* ICON WITH GOLD AURA */}
+        <div className="relative z-10 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl border border-amber-300/30 bg-amber-400/[0.08] text-amber-300 shadow-[0_0_20px_rgba(251,191,36,0.25)] transition-transform duration-500 group-hover:scale-110 group-hover:bg-amber-400/[0.15]">
+          <IconComponent size={22} className="sm:w-6 sm:h-6" />
+        </div>
+
+        {/* CONTENT */}
+        <div className="relative z-10 mt-6 sm:mt-8">
+          <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.3em] text-amber-300/80 font-medium">
+            {point.subtitle}
+          </div>
+
+          <h3 className="mt-2 font-serif text-xl sm:text-2xl font-light text-rose-100 group-hover:text-white transition-colors">
+            {point.title}
+          </h3>
+
+          <p className="mt-3 text-xs sm:text-sm font-light leading-relaxed text-white/50 group-hover:text-white/70 transition-colors">
+            {point.text}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+export default WhySpecial;

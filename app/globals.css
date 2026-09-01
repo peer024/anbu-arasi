@@ -1,44 +1,240 @@
 @import "tailwindcss";
 
-:root {
-  color-scheme: dark;
+@layer base {
+  :root {
+    color-scheme: dark;
+    --font-serif: var(--font-cormorant), Georgia, serif;
+    --font-display: var(--font-playfair), "Times New Roman", serif;
+    --font-sans: var(--font-jakarta), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-handwriting: var(--font-great-vibes), "Brush Script MT", cursive;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-height: 100%;
+    background: #030206;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #030206;
+    color: #f8fafc;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button {
+    font: inherit;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background: rgba(244, 63, 94, 0.35);
+    color: #ffffff;
+  }
+
+  /* Luxury Gold & Rose Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #030206;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(251, 113, 133, 0.4), rgba(217, 70, 239, 0.2));
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(251, 113, 133, 0.7), rgba(217, 70, 239, 0.5));
+  }
 }
 
-* {
-  box-sizing: border-box;
+/* Custom Font Utilities */
+.font-serif {
+  font-family: var(--font-serif);
 }
 
-html {
-  min-height: 100%;
-  background: #020204;
+.font-display {
+  font-family: var(--font-display);
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: #020204;
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
+.font-sans {
+  font-family: var(--font-sans);
 }
 
-button {
-  font: inherit;
+.font-handwriting {
+  font-family: var(--font-handwriting);
 }
 
-::selection {
-  background: rgba(244, 114, 182, 0.25);
-  color: white;
+/* Glassmorphism 2.0 */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-::-webkit-scrollbar {
-  width: 5px;
+.glass-panel-gold {
+  background: linear-gradient(135deg, rgba(255, 235, 205, 0.05), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(251, 191, 36, 0.15);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(251, 191, 36, 0.25);
 }
 
-::-webkit-scrollbar-track {
-  background: #020204;
+.glass-panel-rose {
+  background: linear-gradient(135deg, rgba(251, 113, 133, 0.07), rgba(217, 70, 239, 0.02));
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(251, 113, 133, 0.18);
+  box-shadow: 0 20px 60px rgba(244, 63, 94, 0.08), inset 0 1px 0 rgba(251, 113, 133, 0.3);
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
+/* Text Shimmer Effect */
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffe4e6 25%,
+    #ffd1dc 50%,
+    #ffe4e6 75%,
+    #ffffff 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer 6s linear infinite;
+}
+
+.text-gold-shimmer {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #fef08a 25%,
+    #fbbf24 50%,
+    #fef08a 75%,
+    #ffffff 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer 7s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* 3D Transform Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* Pulse Glow Keyframes */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.08);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 8s ease-in-out infinite;
+}
+
+/* Floating animation */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1.5deg);
+  }
+}
+
+.animate-float {
+  animation: float-slow 5s ease-in-out infinite;
+}
+
+/* Haute Couture Gold Foil Gradient */
+@keyframes gold-foil {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-gold-foil {
+  background: linear-gradient(
+    135deg,
+    #bf953f 0%,
+    #fcf6ba 25%,
+    #b38728 50%,
+    #fbf5b7 75%,
+    #aa771c 100%
+  );
+  background-size: 200% 200%;
+  animation: gold-foil 6s ease infinite;
+}
+
+/* Prismatic Rainbow Sheen Border */
+@keyframes rainbow-sheen {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 200%;
+  }
+}
+
+.border-prismatic {
+  border-image: linear-gradient(
+    45deg,
+    rgba(251, 113, 133, 0.6),
+    rgba(251, 191, 36, 0.6),
+    rgba(192, 132, 252, 0.6),
+    rgba(56, 189, 248, 0.6),
+    rgba(251, 113, 133, 0.6)
+  ) 1;
+}
+
+/* Luxury Royal Crest Badge */
+.royal-crest-glow {
+  box-shadow: 0 0 35px rgba(251, 191, 36, 0.35), inset 0 0 20px rgba(251, 113, 133, 0.2);
 }

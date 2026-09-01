@@ -27,7 +27,7 @@ export const memories: Memory[] = [
   },
   {
     day: 5,
-    image: "/photos/photo-05.png",
+    image: "/photos/photo-05.jpg",
     caption: "Some smiles are impossible to forget.",
   },
   {
@@ -42,12 +42,12 @@ export const memories: Memory[] = [
   },
   {
     day: 8,
-    image: "/photos/photo-08.png",
+    image: "/photos/photo-08.jpg",
     caption: "Some memories quietly become favourites.",
   },
   {
     day: 9,
-    image: "/photos/photo-09.png",
+    image: "/photos/photo-09.jpg",
     caption: "A little happiness captured in a moment.",
   },
   {
@@ -62,42 +62,42 @@ export const memories: Memory[] = [
   },
   {
     day: 12,
-    image: "/photos/photo-12.png",
+    image: "/photos/photo-12.jpg",
     caption: "A memory made a little more beautiful.",
   },
   {
     day: 13,
-    image: "/photos/photo-13.png",
+    image: "/photos/photo-13.jpg",
     caption: "Another day, another little memory.",
   },
   {
     day: 14,
-    image: "/photos/photo-14.png",
+    image: "/photos/photo-14.jpg",
     caption: "A moment that deserves to stay close.",
   },
   {
     day: 15,
-    image: "/photos/photo-15.png",
+    image: "/photos/photo-15.jpg",
     caption: "Some smiles are worth remembering forever.",
   },
   {
     day: 16,
-    image: "/photos/photo-16.png",
+    image: "/photos/photo-16.jpg",
     caption: "A quiet little moment kept with care.",
   },
   {
     day: 17,
-    image: "/photos/photo-17.png",
+    image: "/photos/photo-17.jpg",
     caption: "Another page in a beautiful little story.",
   },
   {
     day: 18,
-    image: "/photos/photo-18.png",
+    image: "/photos/photo-18.jpg",
     caption: "A moment that made the day feel special.",
   },
   {
     day: 19,
-    image: "/photos/photo-19.png",
+    image: "/photos/photo-19.jpg",
     caption: "Some memories never really feel ordinary.",
   },
   {
@@ -107,12 +107,12 @@ export const memories: Memory[] = [
   },
   {
     day: 21,
-    image: "/photos/photo-21.png",
+    image: "/photos/photo-21.jpg",
     caption: "A beautiful moment for another beautiful day.",
   },
   {
     day: 22,
-    image: "/photos/photo-22.png",
+    image: "/photos/photo-22.jpg",
     caption: "A little memory to make you smile.",
   },
   {
@@ -137,7 +137,7 @@ export const memories: Memory[] = [
   },
   {
     day: 27,
-    image: "/photos/photo-27.png",
+    image: "/photos/photo-27.jpg",
     caption: "Some moments quietly find a place in our hearts.",
   },
   {
@@ -147,7 +147,7 @@ export const memories: Memory[] = [
   },
   {
     day: 29,
-    image: "/photos/photo-29.png",
+    image: "/photos/photo-29.jpg",
     caption: "Another memory waiting to be remembered.",
   },
   {
@@ -157,7 +157,7 @@ export const memories: Memory[] = [
   },
   {
     day: 31,
-    image: "/photos/photo-31.png",
+    image: "/photos/photo-31.jpg",
     caption: "A new day, another little reason to smile.",
   },
   {
@@ -177,7 +177,7 @@ export const memories: Memory[] = [
   },
   {
     day: 35,
-    image: "/photos/photo-35.png",
+    image: "/photos/photo-35.jpg",
     caption: "Another beautiful memory to keep close.",
   },
   {
@@ -202,27 +202,27 @@ export const memories: Memory[] = [
   },
   {
     day: 40,
-    image: "/photos/photo-40.png",
+    image: "/photos/photo-40.jpg",
     caption: "Forty moments, countless little feelings.",
   },
   {
     day: 41,
-    image: "/photos/photo-41.png",
+    image: "/photos/photo-41.jpg",
     caption: "A memory quietly saved for another day.",
   },
   {
     day: 42,
-    image: "/photos/photo-42.png",
+    image: "/photos/photo-42.jpg",
     caption: "Some moments are special without needing a reason.",
   },
   {
     day: 43,
-    image: "/photos/photo-43.png",
+    image: "/photos/photo-43.jpg",
     caption: "A little reminder of a beautiful moment.",
   },
   {
     day: 44,
-    image: "/photos/photo-44.png",
+    image: "/photos/photo-44.jpg",
     caption: "Another chapter in this little collection.",
   },
   {
@@ -287,12 +287,12 @@ export const memories: Memory[] = [
   },
   {
     day: 57,
-    image: "/photos/photo-57.png",
+    image: "/photos/photo-57.jpg",
     caption: "Another moment safely kept in this little collection.",
   },
   {
     day: 58,
-    image: "/photos/photo-58.png",
+    image: "/photos/photo-58.jpg",
     caption: "A little memory for a very special journey.",
   },
   {
