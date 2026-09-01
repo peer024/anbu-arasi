@@ -17,7 +17,7 @@ import { sounds } from "@/lib/soundEffects";
 
 const PREVIEW_MODE = false;
 const PREVIEW_DAY = 4;
-const TEST_BIRTHDAY_MODE = true;
+const TEST_BIRTHDAY_MODE = false;
 
 const BIRTHDAY_DATE = new Date("2027-03-03T00:00:00+05:30");
 
