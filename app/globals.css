@@ -105,6 +105,29 @@
   box-shadow: 0 20px 60px rgba(244, 63, 94, 0.08), inset 0 1px 0 rgba(251, 113, 133, 0.3);
 }
 
+/* Mobile GPU Performance Optimization */
+@media (max-width: 768px) {
+  .backdrop-blur-3xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-xl {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+  .backdrop-blur-md {
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+  }
+
+  .blur-\[140px\],
+  .blur-\[150px\],
+  .blur-\[160px\],
+  .blur-\[170px\],
+  .blur-\[180px\] {
+    filter: blur(35px) !important;
+    opacity: 0.3 !important;
+  }
+}
+
 /* Text Shimmer Effect */
 .text-shimmer {
   background: linear-gradient(

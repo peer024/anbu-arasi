@@ -95,17 +95,6 @@ export function CursorSparkles() {
       addParticle(e.clientX, e.clientY, isMobile ? 8 : 12, true);
     };
 
-    const onTouchMove = (e: TouchEvent) => {
-      if (e.touches.length > 0) {
-        const touch = e.touches[0];
-        const now = Date.now();
-        if (now - lastTime > 45) {
-          addParticle(touch.clientX, touch.clientY, 2);
-          lastTime = now;
-        }
-      }
-    };
-
     const onTouchStart = (e: TouchEvent) => {
       if (e.touches.length > 0) {
         const touch = e.touches[0];
@@ -115,7 +104,6 @@ export function CursorSparkles() {
 
     window.addEventListener("mousemove", onPointerMove, { passive: true });
     window.addEventListener("mousedown", onPointerDown, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
 
     // Draw 4-point sparkle star
@@ -198,7 +186,6 @@ export function CursorSparkles() {
       window.removeEventListener("resize", onResize);
       window.removeEventListener("mousemove", onPointerMove);
       window.removeEventListener("mousedown", onPointerDown);
-      window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchstart", onTouchStart);
       if (animId) cancelAnimationFrame(animId);
     };

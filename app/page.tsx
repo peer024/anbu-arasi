@@ -143,10 +143,10 @@ function TiltCountdownCard({
         <AnimatePresence mode="popLayout">
           <motion.div
             key={value}
-            initial={{ opacity: 0, y: 15, filter: "blur(4px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, y: -15, filter: "blur(4px)" }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             className="font-display text-4xl font-normal tracking-tight text-white drop-shadow-[0_0_25px_rgba(251,191,36,0.35)] sm:text-6xl md:text-7xl"
           >
             {formatNumber(value)}

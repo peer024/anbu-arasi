@@ -286,51 +286,41 @@ export function DailyExperience({
 
   return (
     <div className="relative min-h-screen overflow-hidden px-4 py-24 sm:px-8 sm:py-32">
-      {/* Dynamic Celestial Aurora Glows */}
-      <motion.div
-        animate={
-          isPlaying
-            ? { scale: [1, 1.35, 1], opacity: [0.18, 0.5, 0.18] }
-            : { scale: [1, 1.12, 1], opacity: [0.08, 0.2, 0.08] }
-        }
-        transition={{ duration: isPlaying ? 3.5 : 8, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute left-1/2 top-1/3 h-[750px] w-[750px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-rose-500/30 via-amber-400/20 to-purple-600/30 blur-[190px]"
+      {/* Dynamic Celestial Aurora Glows (GPU Hardware Composited) */}
+      <div
+        className={`pointer-events-none absolute left-1/2 top-1/3 h-[420px] w-[420px] sm:h-[700px] sm:w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-rose-500/25 via-amber-400/15 to-purple-600/25 blur-[70px] sm:blur-[140px] transition-opacity duration-1000 ${
+          isPlaying ? "opacity-90 scale-105" : "opacity-40 scale-100"
+        }`}
+        style={{ willChange: "opacity, transform" }}
       />
 
       {/* Musical Reactive Sound Wave Halo */}
       {isPlaying && (
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: [0.95, 1.3, 0.95], opacity: [0.25, 0.7, 0.25] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-          className="pointer-events-none absolute left-1/2 top-1/3 h-[550px] w-[550px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-amber-300/40 shadow-[0_0_80px_rgba(251,191,36,0.3)]"
+        <div
+          className="pointer-events-none absolute left-1/2 top-1/3 h-[380px] w-[380px] sm:h-[550px] sm:w-[550px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-amber-300/30 animate-pulse"
         />
       )}
 
-      {/* Floating Ambient Stardust Sparks */}
+      {/* Floating Ambient Stardust Sparks (Lightweight & Smooth) */}
       <div className="pointer-events-none absolute inset-0 z-0">
-        {Array.from({ length: 18 }).map((_, i) => (
-          <motion.div
+        {[
+          { left: "15%", top: "20%", delay: 0 },
+          { left: "80%", top: "25%", delay: 1 },
+          { left: "25%", top: "70%", delay: 2 },
+          { left: "75%", top: "75%", delay: 1.5 },
+        ].map((item, i) => (
+          <div
             key={i}
-            className="absolute text-amber-200/45"
+            className="absolute text-amber-200/40 animate-pulse"
             style={{
-              left: `${(i * 23 + 8) % 95}%`,
-              top: `${(i * 37 + 12) % 90}%`,
-            }}
-            animate={{
-              y: [0, -40, 0],
-              opacity: [0.1, 0.85, 0.1],
-              scale: [0.8, 1.35, 0.8],
-            }}
-            transition={{
-              duration: 3.5 + (i % 4),
-              delay: i * 0.2,
-              repeat: Infinity,
-              ease: "easeInOut",
+              left: item.left,
+              top: item.top,
+              animationDuration: `${3 + i}s`,
+              animationDelay: `${item.delay}s`,
             }}
           >
-            <Sparkles size={11 + (i % 3) * 4} />
-          </motion.div>
+            <Sparkles size={14} />
+          </div>
         ))}
       </div>
 
