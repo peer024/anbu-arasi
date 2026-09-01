@@ -25,7 +25,9 @@ export function CursorSparkles() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animId: number;
+    let animId: number | null = null;
+    let isRunning = false;
+
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
@@ -36,29 +38,42 @@ export function CursorSparkles() {
     };
     window.addEventListener("resize", onResize);
 
+    const isMobile = window.innerWidth < 768;
+    const maxParticles = isMobile ? 20 : 50;
     const particles: SparkleParticle[] = [];
     const colors = ["#ffffff", "#ffe4e6", "#fda4af", "#fde047", "#f472b6", "#fed7aa", "#e0e7ff"];
 
+    const startLoop = () => {
+      if (!isRunning) {
+        isRunning = true;
+        animId = requestAnimationFrame(loop);
+      }
+    };
+
     const addParticle = (x: number, y: number, count = 2, burst = false) => {
-      for (let i = 0; i < count; i++) {
+      if (particles.length >= maxParticles) return;
+
+      const spawnCount = Math.min(count, maxParticles - particles.length);
+      for (let i = 0; i < spawnCount; i++) {
         const types: ("star" | "heart" | "diamond")[] = ["star", "heart", "diamond", "star"];
         const type = types[Math.floor(Math.random() * types.length)];
-        const speed = burst ? Math.random() * 5 + 2 : Math.random() * 1.5 + 0.5;
-        const angle = burst ? Math.random() * Math.PI * 2 : Math.random() * Math.PI * 2;
+        const speed = burst ? Math.random() * 4 + 1.5 : Math.random() * 1.4 + 0.4;
+        const angle = Math.random() * Math.PI * 2;
 
         particles.push({
-          x: x + (Math.random() * 8 - 4),
-          y: y + (Math.random() * 8 - 4),
+          x: x + (Math.random() * 6 - 3),
+          y: y + (Math.random() * 6 - 3),
           vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - (burst ? 0.5 : 0.8),
-          size: burst ? Math.random() * 6 + 3 : Math.random() * 4.5 + 2,
+          vy: Math.sin(angle) * speed - (burst ? 0.4 : 0.6),
+          size: burst ? Math.random() * 4.5 + 2.5 : Math.random() * 3.5 + 1.8,
           alpha: 1,
           color: colors[Math.floor(Math.random() * colors.length)],
           rotation: Math.random() * Math.PI * 2,
-          vRot: (Math.random() - 0.5) * 0.15,
+          vRot: (Math.random() - 0.5) * 0.12,
           type,
         });
       }
+      startLoop();
     };
 
     let lastX = 0;
@@ -68,8 +83,8 @@ export function CursorSparkles() {
     const onPointerMove = (e: MouseEvent) => {
       const now = Date.now();
       const dist = Math.hypot(e.clientX - lastX, e.clientY - lastY);
-      if (dist > 6 || now - lastTime > 30) {
-        addParticle(e.clientX, e.clientY, 2 + Math.floor(Math.random() * 2));
+      if (dist > 8 || now - lastTime > 40) {
+        addParticle(e.clientX, e.clientY, 2);
         lastX = e.clientX;
         lastY = e.clientY;
         lastTime = now;
@@ -77,20 +92,24 @@ export function CursorSparkles() {
     };
 
     const onPointerDown = (e: MouseEvent) => {
-      addParticle(e.clientX, e.clientY, 14, true);
+      addParticle(e.clientX, e.clientY, isMobile ? 8 : 12, true);
     };
 
     const onTouchMove = (e: TouchEvent) => {
       if (e.touches.length > 0) {
         const touch = e.touches[0];
-        addParticle(touch.clientX, touch.clientY, 3);
+        const now = Date.now();
+        if (now - lastTime > 45) {
+          addParticle(touch.clientX, touch.clientY, 2);
+          lastTime = now;
+        }
       }
     };
 
     const onTouchStart = (e: TouchEvent) => {
       if (e.touches.length > 0) {
         const touch = e.touches[0];
-        addParticle(touch.clientX, touch.clientY, 12, true);
+        addParticle(touch.clientX, touch.clientY, 8, true);
       }
     };
 
@@ -122,30 +141,10 @@ export function CursorSparkles() {
       const topCurveHeight = size * 0.3;
       c.beginPath();
       c.moveTo(cx, cy + topCurveHeight);
-      // top left curve
-      c.bezierCurveTo(
-        cx, cy, 
-        cx - size / 2, cy, 
-        cx - size / 2, cy + topCurveHeight
-      );
-      // bottom left curve
-      c.bezierCurveTo(
-        cx - size / 2, cy + (size + topCurveHeight) / 2, 
-        cx, cy + (size + topCurveHeight) / 1.2, 
-        cx, cy + size
-      );
-      // bottom right curve
-      c.bezierCurveTo(
-        cx, cy + (size + topCurveHeight) / 1.2, 
-        cx + size / 2, cy + (size + topCurveHeight) / 2, 
-        cx + size / 2, cy + topCurveHeight
-      );
-      // top right curve
-      c.bezierCurveTo(
-        cx + size / 2, cy, 
-        cx, cy, 
-        cx, cy + topCurveHeight
-      );
+      c.bezierCurveTo(cx, cy, cx - size / 2, cy, cx - size / 2, cy + topCurveHeight);
+      c.bezierCurveTo(cx - size / 2, cy + (size + topCurveHeight) / 2, cx, cy + (size + topCurveHeight) / 1.2, cx, cy + size);
+      c.bezierCurveTo(cx, cy + (size + topCurveHeight) / 1.2, cx + size / 2, cy + (size + topCurveHeight) / 2, cx + size / 2, cy + topCurveHeight);
+      c.bezierCurveTo(cx + size / 2, cy, cx, cy, cx, cy + topCurveHeight);
       c.closePath();
     };
 
@@ -157,8 +156,8 @@ export function CursorSparkles() {
         p.x += p.vx;
         p.y += p.vy;
         p.rotation += p.vRot;
-        p.alpha -= 0.022;
-        p.size *= 0.965;
+        p.alpha -= 0.026;
+        p.size *= 0.96;
 
         if (p.alpha <= 0 || p.size < 0.4) {
           particles.splice(i, 1);
@@ -170,8 +169,6 @@ export function CursorSparkles() {
         ctx.rotate(p.rotation);
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.alpha;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = p.color;
 
         if (p.type === "heart") {
           drawHeart(ctx, 0, -p.size * 0.5, p.size);
@@ -186,14 +183,16 @@ export function CursorSparkles() {
           drawStar(ctx, 0, 0, p.size, p.size * 0.32);
         }
         ctx.fill();
-
         ctx.restore();
       }
 
-      animId = requestAnimationFrame(loop);
+      if (particles.length > 0) {
+        animId = requestAnimationFrame(loop);
+      } else {
+        isRunning = false;
+        ctx.clearRect(0, 0, width, height);
+      }
     };
-
-    loop();
 
     return () => {
       window.removeEventListener("resize", onResize);
@@ -201,7 +200,7 @@ export function CursorSparkles() {
       window.removeEventListener("mousedown", onPointerDown);
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchstart", onTouchStart);
-      cancelAnimationFrame(animId);
+      if (animId) cancelAnimationFrame(animId);
     };
   }, []);
 
@@ -209,10 +208,12 @@ export function CursorSparkles() {
     <canvas
       ref={canvasRef}
       className="pointer-events-none fixed inset-0 z-[300] h-full w-full"
+      style={{ willChange: "transform" }}
       aria-hidden="true"
     />
   );
 }
 
 export default CursorSparkles;
+
 

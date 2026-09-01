@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 interface Star {
   x: number;
   y: number;
-  z: number; // For parallax depth
+  z: number;
   size: number;
   baseAlpha: number;
   alpha: number;
@@ -49,6 +49,8 @@ export function CosmicBackground() {
     if (!ctx) return;
 
     let animationFrameId: number;
+    const isMobile = window.innerWidth < 768;
+
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
@@ -76,56 +78,54 @@ export function CosmicBackground() {
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("touchmove", handleTouchMove, { passive: true });
 
-    // Palette of celestial luxury tones
     const starColors = [
       "#ffffff",
-      "#ffe4e6", // Rose
-      "#fed7aa", // Amber/Gold
-      "#fbcfe8", // Pink
-      "#e0e7ff", // Violet
-      "#fde047", // Pure Gold
+      "#ffe4e6",
+      "#fed7aa",
+      "#fbcfe8",
+      "#e0e7ff",
+      "#fde047",
     ];
 
-    // 1. Generate 220 3D Depth Stars
-    const stars: Star[] = Array.from({ length: 220 }, (_, i) => {
-      const isCross = i % 14 === 0;
+    const starCount = isMobile ? 55 : 140;
+    const stars: Star[] = Array.from({ length: starCount }, (_, i) => {
+      const isCross = i % (isMobile ? 20 : 12) === 0;
       return {
         x: Math.random() * width,
         y: Math.random() * height,
-        z: Math.random() * 2 + 0.5,
-        size: isCross ? Math.random() * 2 + 1.8 : Math.random() * 1.6 + 0.5,
-        baseAlpha: Math.random() * 0.7 + 0.25,
+        z: Math.random() * 1.6 + 0.5,
+        size: isCross ? Math.random() * 1.8 + 1.4 : Math.random() * 1.4 + 0.5,
+        baseAlpha: Math.random() * 0.6 + 0.25,
         alpha: 0.5,
-        twinkleSpeed: Math.random() * 0.03 + 0.01,
+        twinkleSpeed: Math.random() * 0.025 + 0.01,
         twinkleOffset: Math.random() * Math.PI * 2,
         color: starColors[Math.floor(Math.random() * starColors.length)],
         isCross,
       };
     });
 
-    // 2. Floating Romantic Stardust Particles (60 particles)
-    const dustParticles: FloatingDust[] = Array.from({ length: 60 }, () => ({
+    const dustCount = isMobile ? 12 : 30;
+    const dustParticles: FloatingDust[] = Array.from({ length: dustCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: -Math.random() * 0.4 - 0.15,
-      size: Math.random() * 2.2 + 0.8,
-      alpha: Math.random() * 0.6 + 0.2,
-      baseAlpha: Math.random() * 0.6 + 0.2,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: -Math.random() * 0.3 - 0.1,
+      size: Math.random() * 1.8 + 0.8,
+      alpha: Math.random() * 0.5 + 0.2,
+      baseAlpha: Math.random() * 0.5 + 0.2,
       color: starColors[Math.floor(Math.random() * starColors.length)],
     }));
 
-    // 3. Meteors Pool
     const meteors: Meteor[] = [];
     const meteorColors = ["#ffffff", "#fda4af", "#fde047", "#f472b6"];
 
     const createMeteor = () => {
       meteors.push({
-        x: Math.random() * width * 1.3,
-        y: Math.random() * (height * 0.4),
-        length: Math.random() * 100 + 60,
-        speed: Math.random() * 9 + 8,
-        angle: Math.PI / 4 + (Math.random() * 0.25 - 0.12),
+        x: Math.random() * width * 1.2,
+        y: Math.random() * (height * 0.35),
+        length: Math.random() * 80 + 50,
+        speed: Math.random() * 8 + 7,
+        angle: Math.PI / 4 + (Math.random() * 0.2 - 0.1),
         alpha: 1,
         color: meteorColors[Math.floor(Math.random() * meteorColors.length)],
         active: true,
@@ -134,7 +134,6 @@ export function CosmicBackground() {
 
     let lastMeteorTime = Date.now();
 
-    // Helper: Draw 4-point cross star
     const drawCrossStar = (
       c: CanvasRenderingContext2D,
       cx: number,
@@ -143,32 +142,24 @@ export function CosmicBackground() {
       color: string,
       alpha: number
     ) => {
-      c.save();
       c.globalAlpha = alpha;
       c.strokeStyle = color;
       c.fillStyle = color;
       c.lineWidth = 1;
 
-      // Outer glow
       c.beginPath();
       c.arc(cx, cy, size * 0.5, 0, Math.PI * 2);
-      c.shadowBlur = 12;
-      c.shadowColor = color;
       c.fill();
 
-      // Horizontal ray
       c.beginPath();
-      c.moveTo(cx - size * 2.5, cy);
-      c.lineTo(cx + size * 2.5, cy);
+      c.moveTo(cx - size * 2.2, cy);
+      c.lineTo(cx + size * 2.2, cy);
       c.stroke();
 
-      // Vertical ray
       c.beginPath();
-      c.moveTo(cx, cy - size * 2.5);
-      c.lineTo(cx, cy + size * 2.5);
+      c.moveTo(cx, cy - size * 2.2);
+      c.lineTo(cx, cy + size * 2.2);
       c.stroke();
-
-      c.restore();
     };
 
     let time = 0;
@@ -177,45 +168,9 @@ export function CosmicBackground() {
       time += 0.016;
       ctx.clearRect(0, 0, width, height);
 
-      // ===============================================
-      // 1. DYNAMIC NEBULA CLOUDS & DEEP SPACE BACKGROUND
-      // ===============================================
-      const bgGrad = ctx.createRadialGradient(
-        width * 0.5 + Math.sin(time * 0.2) * 100,
-        height * 0.4 + Math.cos(time * 0.15) * 80,
-        80,
-        width * 0.5,
-        height * 0.5,
-        Math.max(width, height) * 0.9
-      );
-      bgGrad.addColorStop(0, "#100618"); // Deep celestial violet
-      bgGrad.addColorStop(0.35, "#09030e"); // Romantic midnight
-      bgGrad.addColorStop(0.7, "#040207");
-      bgGrad.addColorStop(1, "#020104");
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, width, height);
-
-      // Flowing Romantic Nebula Orbs
-      const nebulaOrbs = [
-        { x: width * 0.2 + Math.sin(time * 0.2) * 60, y: height * 0.3 + Math.cos(time * 0.3) * 50, r: 350, c: "rgba(244, 63, 94, 0.06)" },
-        { x: width * 0.8 + Math.cos(time * 0.18) * 80, y: height * 0.6 + Math.sin(time * 0.25) * 60, r: 400, c: "rgba(217, 70, 239, 0.05)" },
-        { x: width * 0.5 + Math.sin(time * 0.3) * 70, y: height * 0.8 + Math.cos(time * 0.2) * 40, r: 320, c: "rgba(251, 191, 36, 0.04)" },
-      ];
-
-      for (const orb of nebulaOrbs) {
-        const nGrad = ctx.createRadialGradient(orb.x, orb.y, 10, orb.x, orb.y, orb.r);
-        nGrad.addColorStop(0, orb.c);
-        nGrad.addColorStop(1, "transparent");
-        ctx.fillStyle = nGrad;
-        ctx.beginPath();
-        ctx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // ===============================================
-      // 2. FLOATING STARDUST MAGIC PARTICLES
-      // ===============================================
-      for (const dust of dustParticles) {
+      // 1. DUST
+      for (let i = 0; i < dustParticles.length; i++) {
+        const dust = dustParticles[i];
         dust.x += dust.vx;
         dust.y += dust.vy;
 
@@ -226,29 +181,23 @@ export function CosmicBackground() {
         if (dust.x < -10) dust.x = width + 10;
         if (dust.x > width + 10) dust.x = -10;
 
-        const pulse = Math.sin(time * 2 + dust.x) * 0.2;
+        const pulse = Math.sin(time * 2 + dust.x) * 0.15;
         ctx.beginPath();
         ctx.arc(dust.x, dust.y, dust.size, 0, Math.PI * 2);
         ctx.fillStyle = dust.color;
-        ctx.globalAlpha = Math.max(0.1, Math.min(0.8, dust.baseAlpha + pulse));
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = dust.color;
+        ctx.globalAlpha = Math.max(0.1, Math.min(0.7, dust.baseAlpha + pulse));
         ctx.fill();
       }
-      ctx.shadowBlur = 0;
-      ctx.globalAlpha = 1;
 
-      // ===============================================
-      // 3. STARS & INTERACTIVE CONSTELLATION WEB
-      // ===============================================
+      // 2. STARS
       const mouse = mousePosRef.current;
-      const mouseRadius = 160;
+      const mouseRadius = 140;
+      const mouseRadiusSq = mouseRadius * mouseRadius;
 
       for (let i = 0; i < stars.length; i++) {
         const star = stars[i];
 
-        // Slight drift based on depth
-        star.y += star.z * 0.08;
+        star.y += star.z * 0.06;
         if (star.y > height) {
           star.y = 0;
           star.x = Math.random() * width;
@@ -256,8 +205,8 @@ export function CosmicBackground() {
 
         star.alpha =
           star.baseAlpha +
-          Math.sin(time * star.twinkleSpeed * 60 + star.twinkleOffset) * 0.35;
-        star.alpha = Math.max(0.15, Math.min(1, star.alpha));
+          Math.sin(time * star.twinkleSpeed * 60 + star.twinkleOffset) * 0.3;
+        star.alpha = Math.max(0.15, Math.min(0.95, star.alpha));
 
         if (star.isCross) {
           drawCrossStar(ctx, star.x, star.y, star.size, star.color, star.alpha);
@@ -266,39 +215,36 @@ export function CosmicBackground() {
           ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
           ctx.fillStyle = star.color;
           ctx.globalAlpha = star.alpha;
-          if (star.size > 1.3) {
-            ctx.shadowBlur = 8;
-            ctx.shadowColor = star.color;
-          }
           ctx.fill();
-          ctx.shadowBlur = 0;
         }
 
-        // Interactive constellation line to mouse
-        const dx = mouse.x - star.x;
-        const dy = mouse.y - star.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        // Desktop Interactive Constellations
+        if (!isMobile) {
+          const dx = mouse.x - star.x;
+          const dy = mouse.y - star.y;
+          const distSq = dx * dx + dy * dy;
 
-        if (dist < mouseRadius) {
-          const lineAlpha = (1 - dist / mouseRadius) * 0.35;
-          ctx.beginPath();
-          ctx.moveTo(star.x, star.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = `rgba(251, 113, 133, ${lineAlpha})`;
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
+          if (distSq < mouseRadiusSq) {
+            const dist = Math.sqrt(distSq);
+            const lineAlpha = (1 - dist / mouseRadius) * 0.35;
+            ctx.beginPath();
+            ctx.moveTo(star.x, star.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(251, 113, 133, ${lineAlpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
 
-          // Connect with adjacent stars nearby
-          for (let j = i + 1; j < Math.min(i + 5, stars.length); j++) {
-            const s2 = stars[j];
-            const d2 = Math.hypot(star.x - s2.x, star.y - s2.y);
-            if (d2 < 70) {
-              ctx.beginPath();
-              ctx.moveTo(star.x, star.y);
-              ctx.lineTo(s2.x, s2.y);
-              ctx.strokeStyle = `rgba(251, 191, 36, ${lineAlpha * 0.3})`;
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
+            if (i + 1 < stars.length) {
+              const s2 = stars[i + 1];
+              const d2Sq = (star.x - s2.x) ** 2 + (star.y - s2.y) ** 2;
+              if (d2Sq < 3600) {
+                ctx.beginPath();
+                ctx.moveTo(star.x, star.y);
+                ctx.lineTo(s2.x, s2.y);
+                ctx.strokeStyle = `rgba(251, 191, 36, ${lineAlpha * 0.3})`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+              }
             }
           }
         }
@@ -306,10 +252,8 @@ export function CosmicBackground() {
 
       ctx.globalAlpha = 1;
 
-      // ===============================================
-      // 4. METEORS / SHOOTING STARS (FREQUENT & GLOWING)
-      // ===============================================
-      if (Date.now() - lastMeteorTime > 2800 && Math.random() < 0.05) {
+      // 3. METEORS
+      if (Date.now() - lastMeteorTime > 3400 && Math.random() < 0.04) {
         createMeteor();
         lastMeteorTime = Date.now();
       }
@@ -318,45 +262,38 @@ export function CosmicBackground() {
         const m = meteors[i];
         if (!m.active) continue;
 
-        m.x += Math.cos(m.angle) * m.speed;
+        m.x -= Math.cos(m.angle) * m.speed;
         m.y += Math.sin(m.angle) * m.speed;
-        m.alpha -= 0.014;
+        m.alpha -= 0.016;
 
-        if (m.alpha <= 0 || m.x > width + 150 || m.y > height + 150) {
+        if (m.alpha <= 0 || m.x < -100 || m.y > height + 100) {
           m.active = false;
           meteors.splice(i, 1);
           continue;
         }
 
-        const tailX = m.x - Math.cos(m.angle) * m.length;
+        const tailX = m.x + Math.cos(m.angle) * m.length;
         const tailY = m.y - Math.sin(m.angle) * m.length;
 
-        const meteorGrad = ctx.createLinearGradient(tailX, tailY, m.x, m.y);
-        meteorGrad.addColorStop(0, "transparent");
-        meteorGrad.addColorStop(0.6, `rgba(251, 113, 133, ${m.alpha * 0.6})`);
-        meteorGrad.addColorStop(0.9, `rgba(251, 191, 36, ${m.alpha * 0.8})`);
-        meteorGrad.addColorStop(1, `rgba(255, 255, 255, ${m.alpha})`);
+        const grad = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
+        grad.addColorStop(0, m.color);
+        grad.addColorStop(1, "transparent");
 
         ctx.beginPath();
-        ctx.moveTo(tailX, tailY);
-        ctx.lineTo(m.x, m.y);
-        ctx.strokeStyle = meteorGrad;
-        ctx.lineWidth = 2;
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = "#f43f5e";
+        ctx.moveTo(m.x, m.y);
+        ctx.lineTo(tailX, tailY);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.4;
+        ctx.globalAlpha = m.alpha;
         ctx.stroke();
-        ctx.shadowBlur = 0;
 
-        // Meteor Head Glow
         ctx.beginPath();
-        ctx.arc(m.x, m.y, 2.4, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${m.alpha})`;
-        ctx.shadowBlur = 14;
-        ctx.shadowColor = "#fde047";
+        ctx.arc(m.x, m.y, 1.8, 0, Math.PI * 2);
+        ctx.fillStyle = "#ffffff";
         ctx.fill();
-        ctx.shadowBlur = 0;
       }
 
+      ctx.globalAlpha = 1;
       animationFrameId = requestAnimationFrame(render);
     };
 
@@ -373,11 +310,13 @@ export function CosmicBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-95 transition-opacity duration-1000"
+      className="pointer-events-none fixed inset-0 z-0 h-full w-full"
       aria-hidden="true"
     />
   );
 }
 
 export default CosmicBackground;
+
+
 
